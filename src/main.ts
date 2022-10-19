@@ -12,6 +12,7 @@ const variables = {
   threshold: 0.3,
   width: 50,
   color: 0x2dcb45,
+  invert: false,
 };
 
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
@@ -38,6 +39,7 @@ gui.add(variables, 'width', 4, 150, 1).onChange((value: number) => {
   pixels.changeWidth(value);
 });
 gui.addColor(variables, 'color');
+gui.add(variables, 'invert');
 
 class State {
   private video = document.createElement('video');
@@ -72,7 +74,11 @@ class State {
     ctx.drawImage(this.video, 0, 0, this.width, this.height);
     const src = ctx.getImageData(0, 0, this.width, this.height);
     for (let i = 0; i < src.data.length; i += 4) {
-      this.brightnesses[i / 4] = normalize(
+      const index = i / 4;
+      const bi = variables.invert
+        ? index
+        : Math.ceil(index / this.width) * this.width - 1 - (index % this.width);
+      this.brightnesses[bi] = normalize(
         0,
         255,
         0.2126 * src.data[i] +

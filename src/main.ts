@@ -23,8 +23,8 @@ function resizeCanvas() {
   canvasEl.setAttribute('width', `${viewport.width}px`);
   canvasEl.setAttribute('height', `${viewport.height}px`);
   Object.assign(canvasEl.style, {
-    width: `${viewport.width}px`,
-    height: `${viewport.height}px`,
+    width: `${viewport.width / viewport.pixelRatio}px`,
+    height: `${viewport.height / viewport.pixelRatio}px`,
   });
 }
 resizeCanvas();

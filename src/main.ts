@@ -159,7 +159,11 @@ class ToggleSwitches {
       videoAspectRatio / viewportAspectRatio,
     );
     const size = Math.ceil(viewport.width / pixels.width) * scale;
-    const offsetX = (size * pixels.width - viewport.width) / 2;
+    const switchScale = 0.9;
+    const switchSize = size * switchScale;
+    const offsetX =
+      (size * pixels.width - viewport.width) / 2 -
+      ((1 - switchScale) / 2) * size;
     const offsetY = (size * pixels.height - viewport.height) / 2;
 
     this.toggleSwitches?.forEach((toggleSwitch, i) => {
@@ -168,7 +172,7 @@ class ToggleSwitches {
       toggleSwitch.draw(
         x,
         y,
-        size,
+        switchSize,
         state.brightnesses[i] <= variables.threshold,
       );
     });
